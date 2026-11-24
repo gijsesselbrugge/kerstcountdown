@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#123b2b">
+  <meta name="description" content="Samen aftellen tot kerstmis 2026.">
+  <title>Aftellen tot kerstmis 2026</title>
+  <style>
+    :root{color-scheme:dark;--green:#123b2b;--deep:#0b281e;--cream:#f6f0df;--gold:#d7b66d;--muted:#c8c1aa}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:grid;place-items:center;padding:28px;background:radial-gradient(ellipse at 50% 38%,#24543d 0%,var(--green) 48%,var(--deep) 100%);color:var(--cream);font-family:Georgia,'Times New Roman',serif;text-align:center;overflow-x:hidden}
+    .wrap{width:min(900px,100%);position:relative;padding:clamp(26px,6vw,64px) 18px}
+    .eyebrow{font:600 12px/1.4 Arial,sans-serif;letter-spacing:.34em;text-transform:uppercase;color:var(--gold)}
+    h1{font-weight:400;font-size:clamp(42px,9vw,86px);line-height:1.02;letter-spacing:-.045em;margin:22px 0 12px}
+    .subtitle{font-size:clamp(16px,2.4vw,21px);color:var(--muted);margin:0}
+    .ornament{width:88px;height:1px;background:var(--gold);margin:32px auto 38px;position:relative}
+    .ornament:after{content:'✦';position:absolute;left:50%;top:50%;transform:translate(-50%,-55%);padding:0 12px;background:var(--green);color:var(--gold);font-size:15px}
+    .countdown{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,2vw,22px);max-width:760px;margin:0 auto}
+    .unit{padding:clamp(17px,3.2vw,30px) 8px;border:1px solid rgba(215,182,109,.38);background:rgba(6,27,19,.24);border-radius:5px}
+    .number{display:block;font-variant-numeric:tabular-nums;font-size:clamp(34px,7vw,66px);line-height:1;color:var(--cream)}
+    .label{display:block;margin-top:13px;font:600 10px Arial,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+    .message{min-height:25px;margin:30px 0 0;color:var(--muted);font-size:17px}
+    .footer{margin-top:58px;color:rgba(246,240,223,.55);font:11px Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+    .star{position:absolute;color:rgba(215,182,109,.6);font-size:18px;pointer-events:none}
+    .s1{top:7%;left:8%}.s2{top:17%;right:9%;font-size:12px}.s3{bottom:19%;left:12%;font-size:12px}.s4{bottom:9%;right:13%}
+    @media(max-width:520px){body{padding:16px}.countdown{grid-template-columns:repeat(2,minmax(0,1fr));max-width:390px}.ornament{margin:28px auto}.footer{margin-top:38px}}
+    @media(prefers-reduced-motion:no-preference){.unit{animation:rise .8s both}.unit:nth-child(2){animation-delay:.08s}.unit:nth-child(3){animation-delay:.16s}.unit:nth-child(4){animation-delay:.24s}@keyframes rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <span class="star s1">✧</span><span class="star s2">✦</span><span class="star s3">✧</span><span class="star s4">✦</span>
+    <div class="eyebrow">Het is bijna zover</div>
+    <h1>Kerstmis 2026</h1>
+    <p class="subtitle">De mooiste tijd van het jaar komt eraan</p>
+    <div class="ornament"></div>
+    <section class="countdown" aria-label="Aftellen tot kerstmis">
+      <div class="unit"><span class="number" id="days">000</span><span class="label">Dagen</span></div>
+      <div class="unit"><span class="number" id="hours">00</span><span class="label">Uren</span></div>
+      <div class="unit"><span class="number" id="minutes">00</span><span class="label">Minuten</span></div>
+      <div class="unit"><span class="number" id="seconds">00</span><span class="label">Seconden</span></div>
+    </section>
+    <p class="message" id="message" aria-live="polite">Elke seconde een beetje dichterbij…</p>
+    <div class="footer">24 december wordt 25 december · 00:00 uur</div>
+  </main>
+  <script>
+    // Nederlandse tijd: kerstmis begint op 25 december 2026 om 00:00.
+    const target = new Date('2026-12-25T00:00:00+01:00').getTime();
+    const ids = ['days','hours','minutes','seconds'];
+    const pad = (n, size=2) => String(n).padStart(size,'0');
+    function update(){
+      const distance = target - Date.now();
+      if(distance <= 0){
+        ids.forEach(id => document.getElementById(id).textContent = '00');
+        document.getElementById('days').textContent = '000';
+        document.getElementById('message').textContent = 'Het is kerstmis! Fijne feestdagen!';
+        return;
+      }
+      const days = Math.floor(distance / 86400000);
+      const hours = Math.floor(distance % 86400000 / 3600000);
+      const minutes = Math.floor(distance % 3600000 / 60000);
+      const seconds = Math.floor(distance % 60000 / 1000);
+      document.getElementById('days').textContent = pad(days,3);
+      document.getElementById('hours').textContent = pad(hours);
+      document.getElementById('minutes').textContent = pad(minutes);
+      document.getElementById('seconds').textContent = pad(seconds);
+    }
+    update();
+    setInterval(update,1000);
+  </script>
+</body>
+</html>
